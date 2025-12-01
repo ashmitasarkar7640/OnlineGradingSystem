@@ -1,0 +1,75 @@
+<?php
+session_start();
+include "dbconnect.php";
+
+	$username=$_POST['username'];
+	$password=$_POST['password'];
+	$utype=$_POST['utype'];
+	//$con=mysqli_connect('localhost','root','');
+	//mysqli_select_db($con,'smarthealth');
+//echo($utype);
+	
+	
+	if($utype == 'student')
+	{
+		$q="Select * from students where username='$username' && password='$password' && Status='1'";
+		$result=mysqli_query($con,$q);
+		$num=mysqli_fetch_array($result);
+		if($num>0)
+		{
+		  $_SESSION['id']=$num['Id'];
+		  $_SESSION['username']=$username;
+		  $_SESSION['name']=$num['Name'];
+		  $_SESSION['utype']=$utype;
+		  /*header('location:user_index.php');
+		  $_SESSION["role"]=$num['role'];*/
+			header("Location:user_index.php");
+			exit;
+		}
+		else {
+			header("Location:error.php");
+		}//else
+	}
+	elseif($utype == 'admin')
+	{
+		$q="Select * from admin where username='$username' && password='$password'";
+		$result=mysqli_query($con,$q);
+		$num=mysqli_fetch_array($result);
+		if($num>0)
+		{
+		  $_SESSION['username']=$username;
+		  $_SESSION['password']=$password;
+		  /*header('location:user_index.php');
+		  $_SESSION["role"]=$num['role'];*/
+			header("Location:index.php");
+			exit;
+		}
+	}
+	elseif($utype == 'faculty')
+	{
+		$q="Select * from faculty where username='$username' && password='$password'";
+		$result=mysqli_query($con,$q);
+		$num=mysqli_fetch_array($result);
+		if($num>0)
+		{
+		  $_SESSION['id']=$num['Id'];
+		  $_SESSION['name']=$username;
+		  $_SESSION['name']=$num['Name'];
+		   $_SESSION['email']=$num['email'];
+		   $_SESSION['semester']=$num['semester'];
+		     $_SESSION['specialization']=$num['specialization'];
+		  $_SESSION['utype']=$utype;
+		  
+			header("Location:faculty_index.php");
+			exit;
+		}
+		else {
+			?>
+			<script>
+				alert('Username or password or User type not match');
+				window.open('login.php','_self');
+			</script>
+			<?php
+		}//else
+	}
+?>

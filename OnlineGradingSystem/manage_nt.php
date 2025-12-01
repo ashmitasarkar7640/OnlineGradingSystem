@@ -1,0 +1,153 @@
+<?php
+	session_start();
+	if(!isset($_SESSION['username']))
+		header('Location:login.php');
+?>
+<!Doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Online Grading System</title>
+	<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+	<style>
+		
+	.leftcolumn{
+			width: auto;
+		}
+		.card{
+			padding: 40px;
+		}
+		
+	 h2 {
+		width: 80%;
+    	margin: 30px auto;
+}
+		
+	table {
+		border-collapse: collapse;
+		width: 80%;
+		margin: auto ;
+	}
+
+	th, td {
+		text-align: center;
+		padding: 15px;
+	}
+
+	tr:nth-child(even){background-color: #f2f2f2}
+
+	th {
+		background-color: #333;
+		color: white;
+	}
+</style>
+</head>
+
+<body>
+	
+	<div class="wrapper">
+		<div class="header">
+		  <h1>Online Grading System</h1>
+		</div>
+
+		<div class="topnav">
+			<a href="index.php">Home</a>
+			<a href="view_students.php">View Students</a>
+			<a href="view_employee.php">View Faculty</a>
+			<a href="manage_students.php">Manage Students</a>
+			<a href="manage_faculty.php">Manage Faculty</a>
+			<a href="fac_reg.php">Add Faculty</a>
+			<a href="logout.php" style="float:right">Log out</a>
+		</div>
+	<div class="row">
+		  <div class="leftcolumn">
+			<div class="card">
+				
+				<h2>Manage Notification For Student</h2>
+				
+				<?php if (isset($_SESSION['message'])): ?>
+					<div class="msg">
+						<?php 
+							echo $_SESSION['message']; 
+							unset($_SESSION['message']);
+						?>
+					</div>
+				<?php endif ?>
+		
+			  <?php
+				  	include 'dbconnect.php';
+					$sql = "SELECT * FROM Notification";
+                    $result = mysqli_query($con, $sql);
+				?> 
+				<table>
+						<tr>
+						<th>ID</th>
+							<th>Notification For</th>
+							<th>Notification</th>
+							<th>Action</th>
+							
+						</tr>
+					<?php
+					while($detail=mysqli_fetch_assoc($result)){
+					?>
+
+						<!--echo "<tr>";-->
+						<tr>
+							<td><?php echo $detail['Id']; ?></td>
+							<td>Student</td>
+							<td><?php echo $detail['Notification']; ?></td>
+					    
+                            <td><!--<a href="admin_view.php?edit=<?php echo $detail['Notification']; ?>" class="edit_btn" >Details</a>-->
+			                <a href="q1.php?del=<?php echo $detail['Id']; ?>" class="del_btn" >Delete</a></td>
+						</tr>
+					<?php } ?>
+				</table>
+				<br>
+				<h2>Manage Notification For Faculty</h2>
+				<?php if (isset($_SESSION['message'])): ?>
+					<div class="msg">
+						<?php 
+							echo $_SESSION['message']; 
+							unset($_SESSION['message']);
+						?>
+					</div>
+				<?php endif ?>
+		
+			  <?php
+				  	include 'dbconnect.php';
+					$sql = "SELECT * FROM fac_notification";
+                    $result = mysqli_query($con, $sql);
+				?> 
+				<table>
+						<tr>
+						<th>ID</th>
+							<th>Notification For</th>
+							<th>Notification</th>
+							<th>Action</th>
+							
+						</tr>
+					<?php
+					while($detail=mysqli_fetch_assoc($result)){
+					?>
+
+						<!--echo "<tr>";-->
+						<tr>
+							<td><?php echo $detail['Id']; ?></td>
+							<td>Faculty</td>
+							<td><?php echo $detail['Notification']; ?></td>
+					    
+                            <td><!--<a href="admin_view.php?edit=<?php echo $detail['NotificationS']; ?>" class="edit_btn" >Details</a>-->
+			                <a href="q2.php?del=<?php echo $detail['Id']; ?>" class="del_btn" >Delete</a></td>
+						</tr>
+					<?php } ?>
+				</table>
+			  </div>
+		</div>
+	</div>
+	
+	<div class="footer">
+  <h2>Copyright  "Ankita Sarkar, Ashmita Sarkar, Riya Das, Meghla Paul, Maithili Saha, Praghya Roy @2022"</h2>
+</div>
+	</div>
+</html>
+</body>

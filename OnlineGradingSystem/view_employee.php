@@ -1,0 +1,113 @@
+<?php
+	session_start();
+	if(!isset($_SESSION['username']))
+		header('Location:login.php');
+?>
+<!Doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Online Result & Grading Management System</title>
+	<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+	<style>
+		
+	.leftcolumn{
+			width: auto;
+		}
+		.card{
+			padding: 40px;
+		}
+		
+	 h2 {
+		width: 80%;
+    	margin: 30px auto;
+}
+		
+	table {
+		border-collapse: collapse;
+		width: 80%;
+		margin: auto ;
+	}
+
+	th, td {
+		text-align: center;
+		padding: 15px;
+	}
+
+	tr:nth-child(even){background-color: #f2f2f2}
+
+	th {
+		background-color: #333;
+		color: white;
+	}
+</style>
+</head>
+
+<body>
+	
+	<div class="wrapper">
+		<div class="header">
+		  <h2>Online Result & Grading Management System</h2>
+		</div>
+<div class="topnav">
+			<a href="index.php">Home</a>
+			<a href="view_students.php">View Students</a>
+			<a href="view_employee.php">View Faculty</a>
+			<a href="manage_students.php">Manage Students</a>
+			<a href="manage_faculty.php">Manage Faculty</a>
+			<a href="fac_reg.php">Add Faculty</a>
+			<a href="logout.php" style="float:right">Log out</a>
+		</div>
+	
+	<div class="row">
+		  <div class="leftcolumn">
+			<div class="card">
+				
+				<h2>View Faculty</h2>
+				
+				<?php if (isset($_SESSION['message'])): ?>
+					<div class="msg">
+						<?php 
+							echo $_SESSION['message']; 
+							unset($_SESSION['message']);
+						?>
+					</div>
+				<?php endif ?>
+		
+			  <?php
+				  	include 'dbconnect.php';
+					$sql = "SELECT * FROM faculty";
+					$result = mysqli_query($con, $sql);
+				?> 
+				<table>
+						<tr>
+							<th>Faculty Name</th>
+							<th>Designation</th>
+							<th>Qualification</th>
+							<th>Specialization</th>
+							<th>Email</th>
+							<th>Mobile</th>
+						</tr>
+					<?php
+					while($detail=mysqli_fetch_assoc($result)){
+					?>
+
+						<!--echo "<tr>";-->
+						<tr>
+						    <td><?php echo $detail['Name']; ?></td>
+							<td><?php echo $detail['Designation']; ?></td>
+							<td><?php echo $detail['Qualification']; ?></td>
+							<td><?php echo $detail['specialization']; ?></td>
+							<td><?php echo $detail['email']; ?></td>
+							<td><?php echo $detail['mobile']; ?></td>
+						</tr>
+					<?php } ?>
+				</table>
+				
+			  </div>
+		</div>
+	</div>
+	 <?php include 'footer.php'?>
+	</div>
+</html>
+</body>

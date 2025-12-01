@@ -1,0 +1,107 @@
+<?php
+session_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Online Grading System</title>
+	<link rel="stylesheet" href="css/mystyle.css">
+<style>
+	.row{
+		padding: 10px 120px;
+	}
+	.card{
+		padding: 25px;
+		margin: auto;
+	}
+</style>
+</head>
+<body>
+
+	<div class="wrapper">
+	
+<div class="header">
+  <h2>Online Result & Grading Management System</h2>
+</div>
+
+        <div class="topnav">
+			<a href="user_index.php">Home</a>
+			<a href="user_profile.php" >Profile</a>
+            <a href="check_grade.php" >Check grade</a>
+			<a href="complain.php" >Query</a>
+			<a href="logout.php" style="float:right">Log out</a>
+                                             
+		</div>
+
+<div class="row">
+  <div class="card">
+		
+		<h2 style="font-size: 30px;">Edit Your details <strong><?php echo $_SESSION['username']; ?></strong></h2>
+	  
+	  <?php if (isset($_SESSION['message'])): ?> 
+		<div class="msg">
+			<?php 
+				echo $_SESSION['message']; 
+				unset($_SESSION['message']);
+			?>
+		</div>
+	<?php endif ?>
+		
+		<?php 
+		include('dbconnect.php');
+		
+		if (isset($_SESSION['id'])) {
+
+			$id = $_SESSION['id'];
+			$record = mysqli_query($con, "SELECT * FROM students WHERE id=$id");
+
+			if (count($record) == 1 ) {
+				$n = mysqli_fetch_assoc($record);
+					$name = $n['Name'];
+					$username = $n['Username'];
+					$email = $n['Email'];
+					$contact = $n['Contact'];
+					$address = $n['Address'];
+					
+			}
+		}?>
+	
+
+		<form method="post" action="edit_profile.php" >
+
+			<input type="hidden" name="id" value="<?php echo $id; ?>">
+
+			<label>Name</label>
+			<input type="text" name="name" value="<?php echo $name; ?>">
+
+			<label>Username</label>
+			<input type="text" name="username" value="<?php echo $username; ?>">
+
+			<label for="class">Email</label>
+			<input type="text" name="email" value="<?php echo $email; ?>">
+
+			<label for="no">Phone no</label>
+			<input type="text" id="" name="contact" value="<?php echo $contact; ?>" >
+			
+			<label for="">Gender</label>
+			<select name="gender">
+					<option value="">-:Select Gender:-</option>
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+			</select>
+		  
+		  	<label>Address: <br/></label>
+            <input name="address" type="text" autofocus="autofocus" value="<?php echo $address; ?>" required="required"><br />
+
+
+			<input class="submit" type="submit" name="update" value="submit" />
+
+		</form>
+		
+    </div>
+  
+</div>
+	 <?php include 'footer.php'?>
+
+</body>
+</html>

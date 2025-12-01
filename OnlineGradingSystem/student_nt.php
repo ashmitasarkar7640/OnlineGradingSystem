@@ -1,0 +1,255 @@
+<?php
+	session_start();
+	if(!isset($_SESSION['username']))
+		header('Location:login.php');
+?>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Online Result & Grading Management System</title>
+<Style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, "sans-serif";
+    padding: 10px;
+    background: #708090;
+	margin: 0;
+}
+.wrapper{
+	width:100%;
+	background:#eee;
+	margin: auto;
+}
+
+/* Style the top navigation bar */
+.topnav {
+    overflow: hidden;
+    background-color: #2F4F4F;
+	position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+/* Style the topnav links */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: indigo;
+}
+
+/* Header/Blog Title */
+.header {
+	margin-top: 20px;
+    padding: 20px;
+    text-align: center;
+	color:#2F4F4F;
+    background-color: white;
+}
+
+.header h1 {
+    font-size: 70px;
+}
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {   
+		
+    margin: auto;
+    width: 50%;
+}
+
+/* Right column */
+.rightcolumn {
+    float: left;
+    width: 25%;
+    background-color: #f1f1f1;
+    padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+    background-color: #aaa;
+    width: 100%;
+    padding: 20px;
+}
+	.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: red;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+	}
+	.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a card effect for articles */
+.card {
+    background-color: burlywood;
+    padding: 70px;
+    margin-top: 30px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Footer */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #333;
+	color:#fff;
+    margin-top: 70px;
+}
+.msg {
+    margin: 30px auto; 
+    padding: 10px; 
+    border-radius: 5px; 
+    color: #648fd3; 
+    background: gray; 
+    border: 1px solid #648fd3;
+    width: 50%;
+    text-align: center;
+}
+
+input[type=text],[type=password],[type=email],[type=number], select,textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 3px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+	input[type=submit] {
+    width: 100%;
+    background-color: #2F4F4F;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 3px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: dimgrey;
+	color:white;
+}
+table {
+        border: 1px solid rgba(34,36,38,.15);
+		border-radius: .28571429rem;
+		border-collapse: separate;
+		border-spacing: 0;
+        width: 70%;
+        margin: auto ;
+    }
+
+    th, td {
+        text-align: center;
+        padding: 15px;
+		border-left: 1px solid rgba(34,36,38,.1);
+		color: rgba(0,0,0,.87);
+    }
+
+    tr:nth-child(even){background-color: #f2f2f2}
+
+    th {
+        background-color: #f9fafb;
+        color: black;
+		border-bottom: 1px solid rgba(34,36,38,.1);
+    }
+	.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+	}
+	.dropdown-submenu {
+    position: relative;
+}
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    
+    margin-top: -1px;
+}
+	</style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header">
+		  <h2>Online Result & Grading Management System</h2>
+    </div>
+		<div class="topnav">
+			<a href="index.php">Dashboard</a>
+
+		</div>
+	<div class="row">
+		  <div class="leftcolumn">
+			<div class="card">
+				
+		
+			<form action="student_nt_q.php" method="post">
+			<label> <center> <h3> --Notification for student--</h3></center></label>
+			 <br/> 
+				<label>Type notification here <br/></label>
+				<center>
+			<textarea name="nt" rows="8" cols="60" id="text" style
+			"font-family:sans-serif;font-size:0.8em;">
+
+</textarea>
+				</center><br><br>
+				<input type="submit" name="submit" value="Send"><br />
+			</form>
+			  </div>
+		</div>
+</div>
+	<div class="footer">
+  <h2>Copyright  "Ankita Sarkar, Ashmita Sarkar, Riya Das, Meghla Paul, Maithili Saha, Praghya Roy @2022"</h2>
+</div>
+</div>
+
+</body>
+</html>

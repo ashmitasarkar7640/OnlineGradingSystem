@@ -1,0 +1,92 @@
+<?php
+	session_start();
+	
+?>
+<!Doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Online Result & Grading Management System</title>
+	<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+	<style>
+		
+	.leftcolumn{
+			width: auto;
+		}
+		.card{
+			padding: 40px;
+		}
+		
+	 h2 {
+		width: 80%;
+    	margin: 30px auto;
+}
+		
+	
+</style>
+</head>
+
+<body>
+	
+	<div class="wrapper">
+		<div class="header">
+		  <h2>Online Result & Grading Management System</h2>
+		</div>
+
+		<div class="topnav">
+			<a href="faculty_index.php">Home</a>
+
+                                             
+		</div>
+	
+	<div class="row">
+		  <div class="leftcolumn">
+			<div class="card">
+				
+				<h2>Complains</h2>
+				
+				<?php if (isset($_SESSION['specialization'])): ?>
+					<div class="msg">
+						<?php 
+							unset($_SESSION['specialization']);
+						?>
+					</div>
+				<?php endif ?>
+		
+			  <?php
+				  	include 'dbconnect.php';
+					
+					$sql = ("SELECT * FROM Complain WHERE 'Subject' = '".$_SESSION['specialization'];."'");
+					$result = mysqli_query($con, $sql);
+				?> 
+				<table>
+						<tr>
+							<th>Student Name</th>
+							<th>Subject</th>
+							<th>complain</th>
+						</tr>
+					<?php
+					while($detail=mysqli_fetch_assoc($result)){
+					?>
+
+						<!--echo "<tr>";-->
+						<tr>
+							<td><?php echo $detail['Std_name']; ?></td>
+							<td><?php echo $detail['Subject']; ?></td>
+							<td><?php echo $detail['Complain']; ?></td>
+					
+
+						</tr>
+					<?php } ?>
+				</table>
+				
+			  </div>
+		</div>
+	</div>
+	
+	<div class="footer">
+  <h2>Copyright  "Ankita Sarkar, Ashmita Sarkar, Riya Das, Meghla Paul, Maithili Saha, Praghya Roy @2022"</h2>
+</div>
+	</div>
+</body>
+</html>

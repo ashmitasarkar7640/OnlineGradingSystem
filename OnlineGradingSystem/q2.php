@@ -1,0 +1,16 @@
+<?php 
+	include 'dbconnect.php';
+
+
+	if (isset($_GET['del'])) {
+		$user = $_GET['del'];
+		echo $user;
+		mysqli_query($con, "DELETE FROM fac_notification WHERE Id = '$user' ");
+		 ?>
+			<script>
+				alert('Notification Deleted');
+				window.open(' manage_nt.php','_self');
+			</script>
+		<?php
+	}
+?>
